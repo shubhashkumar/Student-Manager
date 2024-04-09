@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>student manager app</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h3 class="sman-header">Student Manager</h3>
+    <div class="all-std-count">
+      <span>All students: </span>
+      <span class="students-num">0</span>
+    </div>
+    <form class="std-form">
+      <label for="name">name:</label>
+      <input type="text" id="name" name="name" required /><br />
+      <label for="mob">mobile:</label>
+      <input type="tel" id="mob" name="mob" required/><br />
+      <label for="address">address:</label>
+      <input type="text" id="address" name="address" required/><br />
+      <input type="submit" class="add-details" value="ADD" />
+    </form>
+    <h3 class="students-header">All Students</h3>
+    <div class="student-details"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
