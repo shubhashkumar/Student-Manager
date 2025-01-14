@@ -1,56 +1,108 @@
-const addDetails = document.querySelector(".add-details");
-//console.log(addDetails);
-const sName = document.getElementById("name");
-//console.log(sName.value);
-const sMob = document.getElementById("mob");
-//console.log(sMob.value);
-const sAddress = document.getElementById("address");
-//console.log(sAddress.value);
-
-
-//adding student while clicking on add button
-addDetails.addEventListener("click", addStudentsDetails);
-function addStudentsDetails(event) {
+// add it to backend
+const detailObj = {};
+const form = document.querySelector("#userDetails-form");
+let id="";
+//show user details as output list items on screen
+const userDetailsOutput = document.querySelector("#user-details-output");
+userDetailsOutput.style.backgroundColor = "pink";
+form.addEventListener("submit", function (event) {
   event.preventDefault();
-  var enteredName = sName.value;
-  var enteredMob = sMob.value;
-  var enteredAdd = sAddress.value;
-  //create a full text node
-  var fullDetails = document.createTextNode(
-    enteredName + " " + enteredMob + " " + enteredAdd
-  );
-  console.log(fullDetails);
-  //create a list element
-  var newLi = document.createElement("li");
-  newLi.setAttribute("class", "text-center");
-  newLi.appendChild(fullDetails);
-  console.log(newLi);
-  //append this list to div
-  document.querySelector(".student-details").appendChild(newLi);
-  //create an edit button
-  const editBtn = document.createElement("button");
-  editBtn.setAttribute("class", "btn btn-primary");
-  editBtn.innerText = "Edit";
-  //add event listner on edit button
-  editBtn.addEventListener("click",function(event)
-  {
+  if(id)
+    {
+      console.log(id);
+      //update on server side
+      axios.put(`https://crudcrud.com/api/fd5062dadbd74984a1dae144574c6fa6/userInfo/${id}`,
+        {
+          name:document.querySelector("#user-name").value,
+          phone:document.querySelector("#user-phone").value,
+          email:document.querySelector("#user-email").value
+        })
+        .then((resolve)=>
+        {
+          console.log(resolve);
+          
+        })
+        .catch((reject)=>{
+          console.log(reject);
+        })
+      
+      id="";
+    }
+    else{ 
+  (detailObj.name = document.querySelector("#user-name").value),
+    (detailObj.phone = document.querySelector("#user-phone").value),
+    (detailObj.email = document.querySelector("#user-email").value),
+    // console.log(detailObj);
+    axios
+      .post(
+        "https://crudcrud.com/api/fd5062dadbd74984a1dae144574c6fa6/userInfo",
+        detailObj
+      )
+      .then((resolve) => {})
+      .catch((reject) => {
+        console.log(reject);
+      });
+    }
+});
 
-  document.getElementById("name").value=enteredName;
-  document.getElementById("mob").value=enteredMob;
-  document.getElementById("address").value=enteredAdd;
-  newLi.remove();
-  });
-  //create a delete button
-  const dlttBtn = document.createElement("button");
+//get element on the screen
+function getUser() {
+  axios
+    .get("https://crudcrud.com/api/fd5062dadbd74984a1dae144574c6fa6/userInfo")
+    .then((resolve) => {
+      resolve.data.forEach((element) => {
+        const newLi = document.createElement("li");
+        newLi.className = "saveDetails";
+        newLi.style.listStyleType = "none";
+        newLi.innerHTML =
+          JSON.stringify(element) +
+          ` <button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button>`;
+        userDetailsOutput.appendChild(newLi);
+        // console.log(userDetailsOutput);
+      });
+      //edit/update
+      const editUserDetails = document.querySelectorAll(".edit-btn");
+      //console.log(editUserDetails);
+      editUserDetails.forEach((element) => {
+        // console.log(element.parentNode);
+        element.addEventListener("click", function (event) {
+          event.preventDefault();
+          const getParentNode = element.parentNode;
+          const detailsIntoObject = JSON.parse(
+            getParentNode.firstChild.textContent
+          );
+          id=detailsIntoObject._id;
+          //console.log(detailsIntoObject);
+          document.querySelector("#user-name").value = detailsIntoObject.name;
+          document.querySelector("#user-phone").value = detailsIntoObject.phone;
+          document.querySelector("#user-email").value = detailsIntoObject.email;
 
-  dlttBtn.setAttribute("class", "btn btn-primary");
-
-  dlttBtn.innerText = "delete";
-
-  //append both button to list
-  newLi.appendChild(editBtn);
-  newLi.appendChild(dlttBtn);
-  
-
+        });
+      });
+      //delete
+      const deleteUserDetails = document.querySelectorAll(".delete-btn");
+      //console.log(deleteUserDetails);
+      deleteUserDetails.forEach((element) => {
+        element.addEventListener("click", function (event) {
+          const getParentNodeToDelete = element.parentNode;
+          const detailsToDelete = JSON.parse(
+            getParentNodeToDelete.firstChild.textContent
+          );
+          axios
+            .delete(
+              `https://crudcrud.com/api/fd5062dadbd74984a1dae144574c6fa6/userInfo/${detailsToDelete._id}`
+            )
+            .then((resolve) => {
+              getParentNodeToDelete.remove();
+            })
+            .catch((reject) => {
+              console.log(reject);
+            });
+        });
+      });
+    })
+    .catch((reject) => {
+      console.log(reject);
+    });
+  //})
 }
-
