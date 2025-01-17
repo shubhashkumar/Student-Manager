@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Local Storage</title>
-  </head>
-  <body>
-    <!--create form to input data -->
-    <div id="class-heading-container">
-      <h3 id="heading">Welcome to local storage learnings</h3>
-    </div>
-    <div id="form-container">
-      <form id="userDetails-form">
-        <label for="username" id="username">Name:</label>
-        <input type="text" id="user-name" placeholder="enter name" required />
-        <br />
-        <label for="userphone" id="user-phone-number">Phone:</label>
-        <input
-          type="text"
-          id="user-phone"
-          placeholder="mobile number"
-          required
-        />
-        <br />
-        <label for="user-mail">Email:</label>
-        <input type="email" id="user-email" placeholder="enter mail" required />
-        <br />
-        <button id="submit-btn">Submit</button>
-      </form>
-    </div>
-    <button id="getUserDetails" onclick="getUser()">User Details</button>
-    <ul id="user-details-output"></ul>
-    <script src="index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!--header div-->
+  <div id="app-header">STUDENT MANAGER</div>
+  <!--total student count-->
+  <div class="student-count">TOTAL STUDENTS
+    <!--number of students-->
+    <p id="counting">0</p>
+  </div>
+  <!--input form data-->
+  <form class="form-input">
+    <!--input username-->
+    <label for="name">Name:-</label>
+    <input type="text" id="user-name" placeholder="enter name" required>
+    <!--input phone number-->
+    <label for="phone">Phone:-</label>
+    <input type="number" id="phone-number" placeholder="enter phone" required minlength="10">
+    <!--input email id-->
+    <label for="email">Email:-</label>
+    <input type="email" id="email-id" placeholder="enter mail" required>
+    <!--submit button to submit the form -->
+    <button type="submit" id="submit-form">ADD</button>
+  </form>
+  <!--get all the students detail on screen-->
+  <ul id="student-details-output">
+
+  </ul>
+   <script src="index.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+  
+</body>
 </html>
