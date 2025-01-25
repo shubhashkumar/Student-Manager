@@ -1,0 +1,31 @@
+*
+{
+  margin: 0;
+  padding: 0;
+  background-color: rgba(59, 3, 48, 0.807);
+  text-align: center;
+  color: white;
+  font-weight: bolder;
+  margin: 5px;
+}
+
+#student-details-output
+{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  list-style: none;
+  
+}
+
+
+.newUser
+{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+}

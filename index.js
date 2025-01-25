@@ -3,36 +3,39 @@
 const formSubmitBtn=document.querySelector("#submit-form");
 //get the usename,use phone,use email 
 let username=document.querySelector("#user-name");
-let phoneNumber=document.querySelector("#phone-number");
+let dialNumber=document.querySelector("#phone-number");
 let emailId=document.querySelector("#email-id");
 //get the total number of students
 let count=0;
 let totalStudents=document.querySelector("#counting");
 //final id
 let id="";
-
-
 //add eventListener on clocking sumbit button
 //when form is submitted,detail should be send to the backend
 formSubmitBtn.addEventListener("click",callPostMethod);
 function callPostMethod(event)
 {
+  debugger
   if(id)
     {
       let userObj={};
       userObj["name"]=username.value;
-      userObj["phone"]=phoneNumber.value;
+      userObj["phone"]=dialNumber.value;
       userObj["email"]=emailId.value;
       //get parent element of this id
       let getNode= document.getElementsByClassName(id);
-      getNode[0].parentNode.childNodes[0]=userObj.name;
-      getNode[0].parentNode.childNodes[1]=userObj.phone;
-      getNode[0].parentNode.childNodes[2]=userObj.name;
-      axios.put(`https://crudcrud.com/api/6debe469a89a43e3bd4385958ebb4a12/studentInfo/${id}`,userObj)
+      console.log(getNode);
+       //adding now 
+       let parentNodeToEdit=getNode.parentNode;
+       //
+      getNode[0].parentNode.childNodes[0]=username.value;
+      getNode[0].parentNode.childNodes[1]=dialNumber.value;
+      getNode[0].parentNode.childNodes[2]=emailId.value;
+      axios.put(`https://crudcrud.com/api/0ae9b15789d3491589829bdf19da0b79/studentInfo/${id}`,userObj)
          .then((resolve)=>{
            
          })
-        .catch((reject)=>{})
+        .catch((reject)=>{console.log(reject);})
       id="";
     }
   else
@@ -41,21 +44,21 @@ function callPostMethod(event)
   //get the all details in object
   let userObj={};
   userObj["name"]=username.value;
-  userObj["phone"]=phoneNumber.value;
+  userObj["phone"]=dialNumber.value;
   userObj["email"]=emailId.value;
  
   axios
-  .post("https://crudcrud.com/api/6debe469a89a43e3bd4385958ebb4a12/studentInfo",userObj)
+  .post("https://crudcrud.com/api/0ae9b15789d3491589829bdf19da0b79/studentInfo",userObj)
   .then((resolve)=>{
     count++;
     totalStudents.textContent=count;
    //create a list element
-   var newLi=document.createElement("li");
-   newLi.setAttribute("class" ,"newUser")
+   let newLi=document.createElement("li");
+   newLi.className="newUser";//setAttribute("class" ,"newUser")
    //create a nameTextNode
-   let nameTextNode=username.value;
-   let phoneTextNode=phoneNumber.value;
-   let emailTextNode=emailId.value;
+   let nameTextNode=document.createTextNode(username.value);
+   let phoneTextNode=document.createTextNode(dialNumber.value);
+   let emailTextNode=document.createTextNode(emailId.value);
    //create a text node and append it 
    newLi.appendChild(nameTextNode);
    newLi.appendChild(phoneTextNode);
@@ -74,7 +77,7 @@ function callPostMethod(event)
    parentUl.appendChild(newLi)
    //empty all input fields
    username.value="";
-   phoneNumber.value="";
+   dialNumber.value="";
    emailId.value="";
     editBtn.setAttribute("class",`${resolve.data._id}`);
     dlttBtn.setAttribute("class",`${resolve.data._id}`);
@@ -93,14 +96,14 @@ parentUl.addEventListener("click",function(event)
     window.alert("do you want to edit????");
    let parentLiElement= event.target.parentNode;
    username.value=parentLiElement.childNodes[0].textContent;
-   phoneNumber.value=parentLiElement.childNodes[1].textContent;
+   dialNumber.value=parentLiElement.childNodes[1].textContent;
    emailId.value=parentLiElement.childNodes[2].textContent;
    id=event.target.className;
    console.log(id);
   }
 })
 
-//edit functionality
+//delete functionality
 parentUl.addEventListener("click",function(event)
 {
   event.preventDefault();
@@ -109,7 +112,7 @@ parentUl.addEventListener("click",function(event)
     window.alert("do you want to delete????");
     id=event.target.className;
     let parentLiElement= event.target.parentNode;
-    axios.delete(`https://crudcrud.com/api/6debe469a89a43e3bd4385958ebb4a12/studentInfo/${id}`)
+    axios.delete(`https://crudcrud.com/api/0ae9b15789d3491589829bdf19da0b79/studentInfo/${id}`)
     .then((resolve)=>{ 
     })
     .catch((reject)=>{})
@@ -129,7 +132,7 @@ parentUl.addEventListener("click",function(event)
   document.addEventListener("DOMContentLoaded", (event) => 
   {
     axios
-    .get("https://crudcrud.com/api/6debe469a89a43e3bd4385958ebb4a12/studentInfo")
+    .get("https://crudcrud.com/api/0ae9b15789d3491589829bdf19da0b79/studentInfo")
     .then((resolve)=>{
       count=resolve.data.length;
       totalStudents.textContent=count;
@@ -138,7 +141,8 @@ parentUl.addEventListener("click",function(event)
         let phoneTextNode=document.createTextNode(element.phone);
         let emailTextNode=document.createTextNode(element.email);
         let newLi=document.createElement("li");
-        newLi.setAttribute("class" ,"newUser");
+        newLi.className="newUser";
+       // newLi.setAttribute("class" ,"newUser");
        // console.log(newLi);
         newLi.appendChild(nameTextNode);
         newLi.appendChild(phoneTextNode);
